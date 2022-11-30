@@ -26,9 +26,11 @@ namespace System.Windows.Forms
 {
     using System;
     using System.Reflection;
+#if FEATURE_ReflectionPermission
     using System.Diagnostics.CodeAnalysis;
     using System.Security;
     using System.Security.Permissions;
+#endif
 
     /// <devdoc>
     ///     Useful methods to securely call 'dangerous' managed APIs (especially reflection).
@@ -36,7 +38,7 @@ namespace System.Windows.Forms
     ///     for more information specifically about why we need to be careful about reflection invocations.
     /// </devdoc>
     internal static class SecurityUtils {
-
+#if FEATURE_ReflectionPermission
         private static volatile ReflectionPermission memberAccessPermission = null;
         private static volatile ReflectionPermission restrictedMemberAccessPermission = null;
 
@@ -85,6 +87,7 @@ namespace System.Windows.Forms
 
             return false;
         }
+#endif
 
        
         /// <devdoc>
@@ -107,6 +110,7 @@ namespace System.Windows.Forms
 
             BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.CreateInstance;
            
+#if FEATURE_ReflectionPermission
             // if it's an internal type, we demand reflection permission.
             if (!type.IsVisible) {
                 DemandReflectionAccess(type);
@@ -119,7 +123,8 @@ namespace System.Windows.Forms
                 // succeed.
                 allowNonPublic = false;
             }
-            
+#endif
+          
             if (allowNonPublic) {
                 flags |= BindingFlags.NonPublic;
             }
@@ -158,6 +163,7 @@ namespace System.Windows.Forms
                 throw new ArgumentNullException("type");
             }
    
+#if FEATURE_ReflectionPermission
             // if it's an internal type, we demand reflection permission.
             if (!type.IsVisible) {
                 DemandReflectionAccess(type);
@@ -167,7 +173,7 @@ namespace System.Windows.Forms
                 // have full reflection permission. We shouldn't pass BindingFlags.NonPublic in this case.
                 allowNonPublic = false;
             }
-
+#endif
             BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | extraFlags;
             if (!allowNonPublic) {
                 flags &= ~BindingFlags.NonPublic;
@@ -197,6 +203,7 @@ namespace System.Windows.Forms
         ///     This helper method provides safe access to FieldInfo's GetValue method.
         /// </devdoc>
         internal static object FieldInfoGetValue(FieldInfo field, object target) {
+#if FEATURE_ReflectionPermission
             Type type = field.DeclaringType;
             if (type == null) {
                 // Type is null for Global fields.
@@ -206,6 +213,7 @@ namespace System.Windows.Forms
             } else if (!(type != null && type.IsVisible && field.IsPublic)) {
                 DemandReflectionAccess(type);
             }
+#endif
             return field.GetValue(target);
         }
 
@@ -213,6 +221,7 @@ namespace System.Windows.Forms
         ///     This helper method provides safe access to MethodInfo's Invoke method.
         /// </devdoc>
         internal static object MethodInfoInvoke(MethodInfo method, object target, object[] args) {
+#if FEATURE_ReflectionPermission
             Type type = method.DeclaringType;
             if (type == null) {
                 // Type is null for Global methods. In this case we would need to demand grant set on 
@@ -224,6 +233,7 @@ namespace System.Windows.Forms
                 // this demand is required for internal types in system.dll and its friend assemblies. 
                 DemandReflectionAccess(type);
             }
+#endif
             return method.Invoke(target, args);
         }
 
@@ -232,10 +242,12 @@ namespace System.Windows.Forms
         ///     Constructors can't be generic, so we don't check if argument types are visible
         /// </devdoc>
         internal static object ConstructorInfoInvoke(ConstructorInfo ctor, object[] args) {
+#if FEATURE_ReflectionPermission
             Type type = ctor.DeclaringType;
             if ((type != null) && !(type.IsVisible && ctor.IsPublic)) {
                 DemandReflectionAccess(type);
             }
+#endif
             return ctor.Invoke(args);
         }
 
@@ -243,9 +255,11 @@ namespace System.Windows.Forms
         ///     This helper method provides safe access to Array.CreateInstance.
         /// </devdoc>
         internal static object ArrayCreateInstance(Type type, int length) {
+#if FEATURE_ReflectionPermission
             if (!type.IsVisible) {
                 DemandReflectionAccess(type);
             }
+#endif
             return Array.CreateInstance(type, length);
         }
 #endif
