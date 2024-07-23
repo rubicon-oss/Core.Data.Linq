@@ -103,7 +103,7 @@ namespace System.Data.Linq.SqlClient {
         FieldInfo globalsField;
         FieldInfo argsField;
 
-#if DEBUG
+#if DEBUG && NETFRAMEWORK
         static AssemblyBuilder captureAssembly;
         static ModuleBuilder captureModule;
         static string captureAssemblyFilename;
@@ -196,7 +196,7 @@ namespace System.Data.Linq.SqlClient {
             }
             if (factory == null) {
                 Generator gen = new Generator(this, elementType);
-#if DEBUG
+#if DEBUG && NETFRAMEWORK
                 if (ObjectReaderCompiler.CaptureModule != null) {
                     this.CompileCapturedMethod(gen, expression, elementType);
                 }
@@ -261,7 +261,7 @@ namespace System.Data.Linq.SqlClient {
                 new object[] { reader, provider, parentArgs, userArgs, subQueries }, null);
         }
 
-#if DEBUG
+#if DEBUG && NETFRAMEWORK
         private void CompileCapturedMethod(Generator gen, SqlExpression expression, Type elementType) {
             TypeBuilder tb = ObjectReaderCompiler.CaptureModule.DefineType("reader_type_" + ObjectReaderCompiler.GetNextId());
             MethodBuilder mb = tb.DefineMethod(
