@@ -146,6 +146,14 @@ namespace System.Data.Linq {
             else if (toType == typeof(DateTimeOffset) && fromType == typeof(DateTime)) {
                 return new DateTimeOffset((DateTime)value);
             }
+            else if (toType == typeof(DateOnly) && fromType == typeof(DateTime))
+            {
+                return DateOnly.FromDateTime((DateTime) value);
+            }
+            else if (toType == typeof(DateTime) && fromType == typeof(DateOnly))
+            {
+                return ((DateOnly) value).ToDateTime(TimeOnly.MinValue);
+            }
             else if (toType == typeof(string) && !(typeof(IConvertible).IsAssignableFrom(fromType))) {
                 if (fromType == typeof(char[])) {
                     return new String((char[])value);

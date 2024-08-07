@@ -352,7 +352,7 @@ namespace System.Data.Linq.SqlClient
 
     internal static string MethodHasNoSupportConversionToSql(object p0)
     {
-      return SR.GetString(nameof (MethodHasNoSupportConversionToSql), p0);
+      return $"Method '{p0}' has no supported translation to SQL.";
     }
 
     internal static string MethodFormHasNoSupportConversionToSql(object p0, object p1)
@@ -615,7 +615,7 @@ namespace System.Data.Linq.SqlClient
 
     internal static string SourceExpressionAnnotation(object p0)
     {
-      return SR.GetString(nameof (SourceExpressionAnnotation), p0);
+      return $"Source Expression: {p0}";
     }
 
     internal static string MaxSizeNotSupported(object p0)

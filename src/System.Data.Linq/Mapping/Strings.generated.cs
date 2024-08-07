@@ -235,7 +235,7 @@ namespace System.Data.Linq.Mapping
 
     internal static string UnmappedClassMember(object p0, object p1)
     {
-      return SR.GetString(nameof (UnmappedClassMember), p0, p1);
+      return $"Class member {p0}.{p1} is unmapped.";
     }
 
     internal static string UnrecognizedAttribute(object p0)
