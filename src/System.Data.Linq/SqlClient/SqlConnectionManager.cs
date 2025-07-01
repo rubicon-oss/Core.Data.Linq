@@ -1,18 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
-using System.IO;
-using System.Reflection;
-using System.Text;
 using System.Transactions;
+using Microsoft.Data.SqlClient;
 
 namespace System.Data.Linq.SqlClient {
-    using System.Data.Linq;
-    using System.Data.Linq.Provider;
+    using Provider;
 
     internal class SqlConnectionManager : IConnectionManager {
         private IProvider provider;
