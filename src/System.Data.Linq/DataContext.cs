@@ -95,14 +95,14 @@ namespace System.Data.Linq {
             this.Init(fileOrServerOrConnection, mapping);
         }
 
-        public DataContext(IDbConnection connection) {
+        public DataContext(DbConnection connection) {
             if (connection == null) {
                 throw Error.ArgumentNull("connection");
             }
             this.InitWithDefaultMapping(connection);
         }
 
-        public DataContext(IDbConnection connection, MappingSource mapping) {
+        public DataContext(DbConnection connection, MappingSource mapping) {
             if (connection == null) {
                 throw Error.ArgumentNull("connection");
             }
@@ -656,7 +656,7 @@ namespace System.Data.Linq {
         }
 
         /// <summary>
-        /// Returns an IDbCommand object representing the query in the database server's
+        /// Returns an DbCommand object representing the query in the database server's
         /// native query language.
         /// </summary>
         /// <param name="query"></param>

@@ -792,7 +792,7 @@ namespace System.Data.Linq.SqlClient {
                 this.log.WriteLine(command);
                 this.log.WriteLine();
             }
-            IDbCommand cmd = this.conManager.Connection.CreateCommand();
+            DbCommand cmd = this.conManager.Connection.CreateCommand();
             cmd.CommandTimeout = this.commandTimeout;
             cmd.Transaction = this.conManager.Transaction;
             cmd.CommandText = command;

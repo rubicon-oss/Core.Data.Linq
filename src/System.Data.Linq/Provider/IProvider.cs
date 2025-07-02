@@ -109,7 +109,7 @@ namespace System.Data.Linq.Provider {
         string GetQueryText(Expression query);
 
         /// <summary>
-        /// Return an IDbCommand object representing the translation of specified query.
+        /// Return an DbCommand object representing the translation of specified query.
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
