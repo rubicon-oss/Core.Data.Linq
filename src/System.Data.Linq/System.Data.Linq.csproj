@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
     <LangVersion>8.0</LangVersion>
     <DefineConstants>SYSTEM_DATA_LINQ;ILGEN</DefineConstants>
-    <Version>4.0.0-alpha.2</Version>
+    <Version>4.0.0-alpha.4</Version>
     <PackageId>Core.Data.Linq</PackageId>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../../System.Data.Linq.snk</AssemblyOriginatorKeyFile>
