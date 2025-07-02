@@ -37,14 +37,16 @@ namespace System.Data.Linq {
                 else if (fromType == typeof(Guid)) {
                     return new Binary(((Guid)value).ToByteArray());
                 }
-                else {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    byte[] streamArray;
-                    using (MemoryStream stream = new MemoryStream()) {
-                        formatter.Serialize(stream, value);
-                        streamArray = stream.ToArray();
-                    }
-                    return new Binary(streamArray);
+                else
+                {
+                    throw new NotSupportedException("Can only convert types Guid and Byte[] to type Binary.");
+                    // BinaryFormatter formatter = new BinaryFormatter();
+                    // byte[] streamArray;
+                    // using (MemoryStream stream = new MemoryStream()) {
+                    //     formatter.Serialize(stream, value);
+                    //     streamArray = stream.ToArray();
+                    // }
+                    // return new Binary(streamArray);
                 }
             }
             else if (toType == typeof(byte[])) {
@@ -55,13 +57,14 @@ namespace System.Data.Linq {
                     return ((Guid)value).ToByteArray();
                 }
                 else {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    byte[] returnValue;
-                    using (MemoryStream stream = new MemoryStream()) {
-                        formatter.Serialize(stream, value);
-                        returnValue = stream.ToArray();
-                    }
-                    return returnValue;
+                    throw new NotSupportedException("Can convert type Binary only to types Guid and Byte[].");
+                    // BinaryFormatter formatter = new BinaryFormatter();
+                    // byte[] returnValue;
+                    // using (MemoryStream stream = new MemoryStream()) {
+                    //     formatter.Serialize(stream, value);
+                    //     returnValue = stream.ToArray();
+                    // }
+                    // return returnValue;
                 }
             }
             else if (fromType == typeof(byte[])) {
@@ -69,23 +72,26 @@ namespace System.Data.Linq {
                     return new Guid((byte[])value);
                 }
                 else {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    object returnValue;
-                    using (MemoryStream stream = new MemoryStream((byte[])value)) {
-                        returnValue = ChangeType(formatter.Deserialize(stream), toType);
-                    }
-                    return returnValue; 
+                    throw new NotSupportedException("Can convert type Byte[] only to type Guid.");
+                    // BinaryFormatter formatter = new BinaryFormatter();
+                    // object returnValue;
+                    // using (MemoryStream stream = new MemoryStream((byte[])value)) {
+                    //     returnValue = ChangeType(formatter.Deserialize(stream), toType);
+                    // }
+                    // return returnValue; 
                 }
             }
             else if (fromType == typeof(Binary)) {
                 if (toType == typeof(Guid)) {
                     return new Guid(((Binary)value).ToArray());
                 }
-                else {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    using (MemoryStream stream = new MemoryStream(((Binary)value).ToArray(), false)) {
-                        return ChangeType(formatter.Deserialize(stream), toType);
-                    }
+                else
+                {
+                    throw new NotSupportedException("Can convert type Binary only to type Guid.");
+                    // BinaryFormatter formatter = new BinaryFormatter();
+                    // using (MemoryStream stream = new MemoryStream(((Binary)value).ToArray(), false)) {
+                    //     return ChangeType(formatter.Deserialize(stream), toType);
+                    // }
                 }
             }
             else if (toType.IsEnum) {
